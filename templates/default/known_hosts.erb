@@ -1,27 +1,43 @@
 # THIS FILE IS MAINTAINED BY CHEF, DO NOT MODIFY AS IT WILL BE OVERWRITTEN
 <% @nodes.each do |n| -%>
-
-<% if n['keys']['ssh'].has_key?('host_rsa_public') -%>
-<%= n.has_key?('hostname') ? "#{n['hostname']}," : '' %><%= n['fqdn'] %>,<%= n['ipaddress'] %> ssh-rsa <%= n['keys']['ssh']['host_rsa_public'] %>
-<% end -%>
-<% if n['keys']['ssh'].has_key?('host_dsa_public') -%>
-<%= n.has_key?('hostname') ? "#{n['hostname']}," : '' %><%= n['fqdn'] %>,<%= n['ipaddress'] %> ssh-dsa <%= n['keys']['ssh']['host_dsa_public'] %>
-<% end -%>
-<% #dirty hacks go here -%>
-<% if n.has_key?('cloud') and n['cloud'].has_key?('public_hostname') and n['cloud'].has_key?('public_ipv4') -%>
-<% if n['keys']['ssh'].has_key?('host_rsa_public') -%>
-<%= n.has_key?('hostname') ? "#{n['hostname']}," : '' %><%= n['cloud']['public_hostname'] %>,<%= n['cloud']['public_ipv4'] %> ssh-rsa <%= n['keys']['ssh']['host_rsa_public'] %>
-<% end -%>
-<% if n['keys']['ssh'].has_key?('host_dsa_public') -%>
-<%= n.has_key?('hostname') ? "#{n['hostname']}," : '' %><%= n['cloud']['public_hostname'] %>,<%= n['cloud']['public_ipv4'] %> ssh-dsa <%= n['keys']['ssh']['host_dsa_public'] %>
-<% end -%>
-<% end -%>
-<% if n.has_key?('cloud') and n['cloud'].has_key?('local_hostname') and n['cloud'].has_key?('local_ipv4') -%>
-<% if n['keys']['ssh'].has_key?('host_rsa_public') -%>
-<%= n.has_key?('hostname') ? "#{n['hostname']}," : '' %><%= n['cloud']['local_hostname'] %>,<%= n['cloud']['local_ipv4'] %> ssh-rsa <%= n['keys']['ssh']['host_rsa_public'] %>
-<% end -%>
-<% if n['keys']['ssh'].has_key?('host_dsa_public') -%>
-<%= n.has_key?('hostname') ? "#{n['hostname']}," : '' %><%= n['cloud']['local_hostname'] %>,<%= n['cloud']['local_ipv4'] %> ssh-dsa <%= n['keys']['ssh']['host_dsa_public'] %>
+  <% if n['keys']['ssh'].has_key?('host_rsa_public') -%>
+    <%= n.has_key?('hostname') ? "#{n['hostname']}," : '' %><%= n['fqdn'] %>,<%= n['ipaddress'] %> ssh-rsa <%= n['keys']['ssh']['host_rsa_public'] %>
   <% end -%>
-<% end -%>
+
+  <% if n['keys']['ssh'].has_key?('host_dsa_public') -%>
+    <%= n.has_key?('hostname') ? "#{n['hostname']}," : '' %><%= n['fqdn'] %>,<%= n['ipaddress'] %> ssh-dsa <%= n['keys']['ssh']['host_dsa_public'] %>
+  <% end -%>
+
+  <% if n['keys']['ssh'].has_key?('host_ecdsa_public') -%>
+    <%= n.has_key?('hostname') ? "#{n['hostname']}," : '' %><%= n['fqdn'] %>,<%= n['ipaddress'] %> <%= n['keys']['ssh']['host_ecdsa_type'] %> <%= n['keys']['ssh']['host_ecdsa_public'] %>
+  <% end -%>
+
+  <% #dirty hacks go here -%>
+  <% if n.has_key?('cloud') and n['cloud'].has_key?('public_hostname') and n['cloud'].has_key?('public_ipv4') -%>
+    <% if n['keys']['ssh'].has_key?('host_rsa_public') -%>
+      <%= n.has_key?('hostname') ? "#{n['hostname']}," : '' %><%= n['cloud']['public_hostname'] %>,<%= n['cloud']['public_ipv4'] %> ssh-rsa <%= n['keys']['ssh']['host_rsa_public'] %>
+    <% end -%>
+    
+    <% if n['keys']['ssh'].has_key?('host_dsa_public') -%>
+      <%= n.has_key?('hostname') ? "#{n['hostname']}," : '' %><%= n['cloud']['public_hostname'] %>,<%= n['cloud']['public_ipv4'] %> ssh-dsa <%= n['keys']['ssh']['host_dsa_public'] %>
+    <% end -%>
+
+    <% if n['keys']['ssh'].has_key?('host_ecdsa_public') -%>
+      <%= n.has_key?('hostname') ? "#{n['hostname']}," : '' %><%= n['cloud']['public_hostname'] %>,<%= n['cloud']['public_ipv4'] %> <%= n['keys']['ssh']['host_ecdsa_type'] %> <%= n['keys']['ssh']['host_ecdsa_public'] %>
+    <% end -%>
+  <% end -%>
+
+  <% if n.has_key?('cloud') and n['cloud'].has_key?('local_hostname') and n['cloud'].has_key?('local_ipv4') -%>
+    <% if n['keys']['ssh'].has_key?('host_rsa_public') -%>
+      <%= n.has_key?('hostname') ? "#{n['hostname']}," : '' %><%= n['cloud']['local_hostname'] %>,<%= n['cloud']['local_ipv4'] %> ssh-rsa <%= n['keys']['ssh']['host_rsa_public'] %>
+    <% end -%>
+
+    <% if n['keys']['ssh'].has_key?('host_dsa_public') -%>
+      <%= n.has_key?('hostname') ? "#{n['hostname']}," : '' %><%= n['cloud']['local_hostname'] %>,<%= n['cloud']['local_ipv4'] %> ssh-dsa <%= n['keys']['ssh']['host_dsa_public'] %>
+    <% end -%>
+
+    <% if n['keys']['ssh'].has_key?('host_ecdsa_public') -%>
+      <%= n.has_key?('hostname') ? "#{n['hostname']}," : '' %><%= n['cloud']['local_hostname'] %>,<%= n['cloud']['local_ipv4'] %> <%= n['keys']['ssh']['host_ecdsa_type'] %> <%= n['keys']['ssh']['host_ecdsa_public'] %>
+    <% end -%>
+  <% end -%>
 <% end -%>
